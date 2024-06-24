@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+  <html>
+      <head>
+          <title>에이블스피드퀴즈</title>
+          <title>에이블스피드퀴즈문제선택</title>
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Gugi&family=Hi+Melody&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <img id="logo" src="에이블 로고.png" alt="에이블 로고">
+          
+  <style>
+    body {
+  background-color: white;
+  }
+  img#logo {
+  float: right;
+  width: 90px;
+  height: 90px;
+  margin-top: 10px; /* 로고와 페이지 상단 간의 간격 조절 */
+  margin-right: 10px; /* 로고와 페이지 오른쪽 간의 간격 조절 */
+  }
+  h1 {    font-family: 'Hi Melody', sans-serif;
+              color : white;
+              text-align: center;
+              font-size: 7em;
+              text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; /* 테두리 스타일 */
+              padding: 10px; /* 글자와 테두리 간격 */
+              background-color: orange;
+      margin: 0;
+  }
+
+
+            #button-container {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: flex-start;
+          margin-bottom: 50px;
+        }
+
+        button {
+          font-family: 'Hi Melody', sans-serif;
+          text-align: center;
+          width : 150px;
+          margin: 0 10px;
+          padding: 10px 20px;
+          font-size: 23px;
+          font-weight: bold;
+          background-color: #FFD400;
+          color: black;
+          border-radius: 5px;
+          border: none;
+          cursor: pointer;
+        }
+
+        #text-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100px;
+        }
+
+        #text {
+          font-size: 150px;
+          font-weight: bold;
+        }
+
+        .next-page-btn {
+    background-color: #000000; /* 배경색 */
+    color: #ffffff; /* 글자색 */
+    border: none; /* 테두리 없애기 */
+    border-radius: 5px; /* 둥근 테두리 만들기 */
+    padding: 10px 20px; /* 버튼 내부 여백 */
+    font-size: 30px; /* 폰트 크기 */
+    cursor: pointer; /* 마우스 포인터 모양 변경 */
+    transition: all 0.3s ease; /* 호버 효과를 위한 애니메이션 속성 */
+    text-decoration: none;
+  }
+
+  .next-page-btn:hover {
+    background-color: #0069d9; /* 호버시 배경색 변경 */
+    color: #fff; /* 호버시 글자색 변경 */
+  } 
+  .button-container {
+        text-align: right;
+        margin-top: 20px;
+      }
+          </style>
+      
+      </head>
+
+
+
+      <body>
+          <h1>사물</h1>
+          <br>
+          <br>
+          
+          <br>
+          <div class="container">
+      <div class="timer" style="font-family: 'Gaegu', sans-serif;color:black;font-size: 30px;">00:00:00</div>
+      <label for="time" style="font-family: 'Gaegu', sans-serif;color:black;font-size: 30px;";>설정시간 :</label>
+      <input type="number" id="time" min="1" value="2"style="font-family: 'Gaegu', sans-serif;width: 150px; height:35px;font-size: 30px;text-align: center;">
+      <button class="btn" id="start">Start</button>
+      <button class="btn" id="stop">Stop</button>
+      <button class="btn" id="reset">Reset</button>
+    </div>
+    <br>
+    <br>
+    
+
+
+        <div id="button-container">
+            <button id="button-a">1</button>
+            <button id="button-b">2</button>
+            <button id="button-c">3</button>
+            <button id="button-d">4</button>
+            <button id="button-e">5</button>
+            <button id="button-f">6</button>
+            <button id="button-g">7</button>
+            <button id="button-h">8</button>
+            <button id="button-i">9</button>
+            <button id="button-j">10</button>
+            
+          </div>
+      
+          <div id="text-container">
+            <div id="text"></div>
+          </div>
+          
+      
+          <script>
+
+            let seconds = 0;
+		let timerId;
+		const timerDisplay = document.querySelector('.timer');
+		const startBtn = document.getElementById('start');
+		const stopBtn = document.getElementById('stop');
+		const resetBtn = document.getElementById('reset');
+		const timeInput = document.getElementById('time');
+
+		function formatTime(seconds) {
+			const hours = Math.floor(seconds / 3600);
+			const minutes = Math.floor((seconds % 3600) / 60);
+			const secondsLeft = seconds % 60;
+			return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
+		}
+
+		function startTimer() {
+			if (!timerId) {
+				seconds = Number(timeInput.value) * 60;
+				timerDisplay.textContent = formatTime(seconds);
+				timerId = setInterval(() => {
+					seconds--;
+					timerDisplay.textContent = formatTime(seconds);
+					if (seconds === 0) {
+						stopTimer();
+					}
+				}, 1000);
+			}
+		}
+
+		function stopTimer() {
+			clearInterval(timerId);
+  timerId = null;
+
+  
+		}
+
+		function resetTimer() {
+			stopTimer();
+			seconds = Number(timeInput.value) * 60;
+			timerDisplay.textContent = formatTime(seconds);
+		}
+
+		startBtn.addEventListener('click', startTimer);
+		stopBtn.addEventListener('click', stopTimer);
+		resetBtn.addEventListener('click', resetTimer);
+
+
+            const buttonA = document.getElementById("button-a");
+            const buttonB = document.getElementById("button-b");
+            const buttonC = document.getElementById("button-c");
+            const buttonD = document.getElementById("button-d");
+            const buttonE = document.getElementById("button-e");
+            const buttonF = document.getElementById("button-f");
+            const buttonG = document.getElementById("button-g");
+            const buttonH = document.getElementById("button-h");
+            const buttonI = document.getElementById("button-i");
+            const buttonJ = document.getElementById("button-j");
+       
+
+            const text = document.getElementById("text");
+              text.style.fontFamily = "'Gaegu', sans-serif";
+              text.style.color = "black";
+            buttonA.addEventListener("click", function () {
+              if (text.innerHTML !== "A기업") {
+                
+                text.innerHTML = "세탁기";
+                text.style.opacity = 0;
+                
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+      
+            buttonB.addEventListener("click", function () {
+              if (text.innerHTML !== "B기업") {
+                
+                text.innerHTML = "태블릿";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+      
+            buttonC.addEventListener("click", function () {
+              if (text.innerHTML !== "C기업") {
+                
+                text.innerHTML = "그릇";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonD.addEventListener("click", function () {
+              if (text.innerHTML !== "D기업") {
+                
+                text.innerHTML = "냄비";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonE.addEventListener("click", function () {
+              if (text.innerHTML !== "E기업") {
+                
+                text.innerHTML = "의자";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonF.addEventListener("click", function () {
+              if (text.innerHTML !== "F기업") {
+                
+                text.innerHTML = "침대";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonG.addEventListener("click", function () {
+              if (text.innerHTML !== "G기업") {
+                
+                text.innerHTML = "에어컨";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonH.addEventListener("click", function () {
+              if (text.innerHTML !== "H기업") {
+                
+                text.innerHTML = "TV";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonI.addEventListener("click", function () {
+              if (text.innerHTML !== "I기업") {
+                
+                text.innerHTML = "컴퓨터";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+            buttonJ.addEventListener("click", function () {
+              if (text.innerHTML !== "J기업") {
+                
+                text.innerHTML = "공기청정기";
+                text.style.opacity = 0;
+                
+      let opacity = 0;
+      let intervalID = setInterval(function() {
+        if (opacity < 1) {
+          opacity += 0.1;
+          text.style.opacity = opacity;
+        } else {
+          clearInterval(intervalID);
+        }
+      }, 10);
+              } else {
+                text.innerHTML = "";
+              }
+            });
+
+           
+          </script>
+    </body>
+</html>
